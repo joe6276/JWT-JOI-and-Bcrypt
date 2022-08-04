@@ -1,0 +1,24 @@
+
+
+POST http://localhost:6000/user/signup
+Content-Type: application/json
+
+{
+    "email":"john2@gmail.com",
+    "password":"12345678"
+}
+
+###
+POST http://localhost:6000/user/login
+Content-Type: application/json
+
+{
+    "email":"john2@gmail.com",
+    "password":"12345678"
+}
+
+
+###
+
+GET  http://localhost:6000/user/homepage
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU0NDg0MDA1LTA3YTUtNDg1ZC04MTg0LWE3NWMyMGNkMmRkNSIsImVtYWlsIjoiam9objJAZ21haWwuY29tIiwiaWF0IjoxNjU5NjE2NDU3LCJleHAiOjE2NTk2MjAwNTd9.XV6QJuaX4z4v2vjc9oExxJyj3rEjUk8nc2zthlgSZUQ
