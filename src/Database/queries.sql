@@ -1,14 +1,11 @@
 
 
 
--- CREATE TABLE UsersTable( id VARCHAR(80), email VARCHAR(200) UNIQUE , password VARCHAR(200))
-
-
--- CREATE PROCEDURE insertUser ( @id VARCHAR(80), @email VARCHAR(200), @password VARCHAR(200))
+-- CREATE PROCEDURE insertSingleuser( @id VARCHAR(80),@name VARCHAR(200), @email VARCHAR(200), @password VARCHAR(200))
 -- AS
 -- BEGIN
 
--- INSERT INTO UsersTable(id,email,password) VALUES(@id, @email, @password)
+-- INSERT INTO UsersTable(id,name,email,password) VALUES(@id,@name, @email, @password)
 
 -- END
 
