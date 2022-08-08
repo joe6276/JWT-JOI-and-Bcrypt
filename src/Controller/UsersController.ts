@@ -3,7 +3,7 @@ import mssql from 'mssql'
 import { sqlConfig } from "../Config/Config";
 import {v4 as uid} from 'uuid'
 import bcrypt from 'bcrypt'
-import { UserSchema } from'../Helper/UserValidator'
+import { UserSchema,UserSchema2 } from'../Helper/UserValidator'
 import {User} from '../Interfaces/interfaces'
 import jwt from 'jsonwebtoken'
 
@@ -20,13 +20,14 @@ interface ExtendedRequest extends Request{
     body:{
         email:string
         password:string
+        name:string
     }
 }
 export const registerUser=async( req:ExtendedRequest, res:Response)=>{
     try {
         const pool=await mssql.connect(sqlConfig)
         const id =uid()
-        const {email, password}= req.body
+        const {email, password, name}= req.body
         const {error , value}= UserSchema.validate(req.body)
         if(error){
             return res.json({error:error.details[0].message})
@@ -35,6 +36,7 @@ export const registerUser=async( req:ExtendedRequest, res:Response)=>{
         await pool.request()
         . input('id', mssql.VarChar, id)
         . input('email', mssql.VarChar, email)
+        .input('name', mssql.VarChar, name)
         . input('password', mssql.VarChar, hashedpassword)
         .execute('insertSingleuser')
 
@@ -51,7 +53,7 @@ export const loginUser=async(req:ExtendedRequest, res:Response)=>{
        try {
           const {email, password }= req.body
           const pool =await mssql.connect(sqlConfig)
-             const {error , value}= UserSchema.validate(req.body)
+             const {error , value}= UserSchema2.validate(req.body)
                 if(error){
                     return res.json({error:error.details[0].message})
                 }
@@ -60,7 +62,7 @@ export const loginUser=async(req:ExtendedRequest, res:Response)=>{
           .execute('getUser')).recordset
 
 
-          if(!user){
+          if(!user[0]){
             return res.json({message:'User Not Found'})
           }
 
@@ -89,4 +91,10 @@ export const getHomepage=async(req:Extended, res:Response)=>{
    if(req.info){
      return res.json({message:`Welcome to the Homepage ${req.info.email}`})
    }
+}
+
+export const checkUser= async (req:Extended, res:Response)=>{
+  if(req.info){
+    res.json({name:req.info.name, role:req.info.role})
+  }
 }
